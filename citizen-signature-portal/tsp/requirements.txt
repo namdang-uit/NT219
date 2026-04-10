@@ -1,0 +1,6 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+cryptography==42.0.8
+pyhanko==0.25.1
+pyhanko-certvalidator==0.26.3
+asn1crypto==1.5.1
