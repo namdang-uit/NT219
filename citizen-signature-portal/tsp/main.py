@@ -1,7 +1,7 @@
 import base64
 from fastapi import FastAPI
 from pydantic import BaseModel
-from pdf_signer import sign_pdf_bytes
+from pdf_signer import sign_pdf_bytes, verify_pdf_bytes
 
 from crypto_core import generate_rsa_keypair, sha256, sign_digest, verify_digest
 
@@ -62,3 +62,27 @@ def sign_pdf(req: SignPdfRequest):
     pdf_bytes = base64.b64decode(req.pdf_b64)
     signed = sign_pdf_bytes(pdf_bytes)
     return SignPdfResponse(signed_pdf_b64=base64.b64encode(signed).decode())
+
+
+class VerifyPdfRequest(BaseModel):
+    pdf_b64: str
+
+
+class VerifyPdfResult(BaseModel):
+    field_name: str
+    valid: bool
+    trusted: bool
+    summary: str
+
+
+class VerifyPdfResponse(BaseModel):
+    all_valid: bool
+    results: list[VerifyPdfResult]
+
+
+@app.post("/verify-pdf", response_model=VerifyPdfResponse)
+def verify_pdf(req: VerifyPdfRequest):
+    pdf_bytes = base64.b64decode(req.pdf_b64)
+    out = verify_pdf_bytes(pdf_bytes)
+    results = [VerifyPdfResult(**r) for r in out["results"]]
+    return VerifyPdfResponse(all_valid=out["all_valid"], results=results)

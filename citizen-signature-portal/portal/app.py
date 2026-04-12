@@ -61,6 +61,7 @@ if uploaded is not None:
         )
         resp.raise_for_status()
         signed_b64 = resp.json()["signed_pdf_b64"]
+        st.session_state["signed_pdf_b64"] = signed_b64
         signed_pdf = base64.b64decode(signed_b64)
 
         st.success("PDF signed!")
@@ -70,3 +71,49 @@ if uploaded is not None:
             file_name="signed.pdf",
             mime="application/pdf",
         )
+
+    if st.button("Verify uploaded PDF (pyHanko)"):
+        pdf_b64_to_verify = data_b64
+        resp = requests.post(
+            f"{TSP_BASE_URL}/verify-pdf",
+            json={"pdf_b64": pdf_b64_to_verify},
+            timeout=60,
+        )
+        resp.raise_for_status()
+        out = resp.json()
+
+        if not out.get("results"):
+            st.warning("No signature fields found in this PDF")
+        else:
+            if out.get("all_valid"):
+                st.success("VALID PDF signature (integrity OK)")
+            else:
+                st.error("INVALID PDF signature")
+
+            st.table(out["results"])
+
+            if any(not r.get("trusted", False) for r in out["results"]):
+                st.info("Note: 'trusted' can be false with self-signed certificates")
+
+    if "signed_pdf_b64" in st.session_state:
+        if st.button("Verify last signed PDF (pyHanko)"):
+            resp = requests.post(
+                f"{TSP_BASE_URL}/verify-pdf",
+                json={"pdf_b64": st.session_state["signed_pdf_b64"]},
+                timeout=60,
+            )
+            resp.raise_for_status()
+            out = resp.json()
+
+            if not out.get("results"):
+                st.warning("No signature fields found in this PDF")
+            else:
+                if out.get("all_valid"):
+                    st.success("VALID PDF signature (integrity OK)")
+                else:
+                    st.error("INVALID PDF signature")
+
+                st.table(out["results"])
+
+                if any(not r.get("trusted", False) for r in out["results"]):
+                    st.info("Note: 'trusted' can be false with self-signed certificates")
