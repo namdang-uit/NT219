@@ -1,0 +1,10 @@
+{"ts": "2026-05-04T16:43:43.976027+00:00", "event": "sign_pdf_requested", "file_name": "Nhom1-L08.pdf", "file_size": 4519075, "digest_b64": "s4VrZR327TIeikEj+kx/s9v5LKjZgWy5wb4cgD7PS28="}
+{"ts": "2026-05-04T16:46:20.138829+00:00", "event": "sign_pdf_requested", "file_name": "Nhom1-L08.pdf", "file_size": 4519075, "digest_b64": "s4VrZR327TIeikEj+kx/s9v5LKjZgWy5wb4cgD7PS28="}
+{"ts": "2026-05-04T16:52:09.115924+00:00", "event": "sign_pdf_requested", "file_name": "Nhom1-L08.pdf", "file_size": 4519075, "digest_b64": "s4VrZR327TIeikEj+kx/s9v5LKjZgWy5wb4cgD7PS28="}
+{"ts": "2026-05-04T16:52:17.591000+00:00", "event": "sign_pdf_requested", "file_name": "Report.pdf", "file_size": 9113009, "digest_b64": "H4xxhU5AUeVNUSbWFxKNGmyj9cQvvk4KF56Gal6wy/U="}
+{"ts": "2026-05-04T16:52:20.575919+00:00", "event": "verify_pdf_requested", "file_name": "document.pdf", "file_size": 9113009, "all_valid": false}
+{"ts": "2026-05-04T16:52:24.684200+00:00", "event": "verify_pdf_requested", "file_name": "document.pdf", "file_size": 9123491, "all_valid": true}
+{"ts": "2026-05-04T16:52:29.328004+00:00", "event": "sign_pdf_requested", "file_name": "signed.pdf", "file_size": 9123491, "digest_b64": "ZzXxSXiHKkOi2SYNwPFlRuDas8uT6cg3X80eonXkhF0="}
+{"ts": "2026-05-04T16:55:24.938732+00:00", "event": "sign_pdf_requested", "file_name": "Nhom1-L08.pdf", "file_size": 4519075, "digest_b64": "s4VrZR327TIeikEj+kx/s9v5LKjZgWy5wb4cgD7PS28="}
+{"ts": "2026-05-04T16:55:25.262996+00:00", "event": "sign_pdf_completed", "file_id": "9a576eeeaa5b43d9b2a5c5a8f4f4a313", "file_name": "Nhom1-L08.pdf", "digest_b64": "s4VrZR327TIeikEj+kx/s9v5LKjZgWy5wb4cgD7PS28="}
+{"ts": "2026-05-04T16:55:29.106566+00:00", "event": "verify_pdf_requested", "file_name": "document.pdf", "file_size": 4527734, "all_valid": true}

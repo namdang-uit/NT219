@@ -4,3 +4,4 @@ cryptography==42.0.8
 pyhanko==0.25.1
 pyhanko-certvalidator==0.26.3
 asn1crypto==1.5.1
+python-multipart==0.0.9

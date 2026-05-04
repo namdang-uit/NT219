@@ -1,0 +1,3 @@
+{"ts": "2026-05-04T16:46:20.186078+00:00", "event": "sign_digest_requested", "digest_b64": "s4VrZR327TIeikEj+kx/s9v5LKjZgWy5wb4cgD7PS28="}
+{"ts": "2026-05-04T16:55:24.988963+00:00", "event": "sign_digest_requested", "digest_b64": "s4VrZR327TIeikEj+kx/s9v5LKjZgWy5wb4cgD7PS28="}
+{"ts": "2026-05-04T16:55:25.179944+00:00", "event": "sign_pdf_requested", "data_size": 4519075}

@@ -1,18 +1,67 @@
 services:
   tsp:
-    build: ./tsp
+    build: ./tsp_service
     ports:
       - "8001:8001"
     environment:
-      - TSP_PORT=8001
+      - TSP_KEY_PEM_PATH=/app/certs/tsp_key.pem 
+      - TSP_CERT_PEM_PATH=/app/certs/tsp_cert.pem
+      - TSP_TRUSTED_ROOT_PEM_PATH=/app/certs/root_ca_cert.pem
+      - PDF_SIGNING_MODE=hsm
+      - EMBED_VALIDATION_INFO=1
+      - PKCS11_MODULE=/usr/lib/softhsm/libsofthsm2.so
+      - SOFTHSM2_CONF=/app/softhsm2.conf
+      - HSM_TOKEN_LABEL=tsp-token
+      - HSM_USER_PIN=1234
+      - HSM_SO_PIN=0000
+      - HSM_KEY_LABEL=tsp-key
+      - TSP_AUDIT_LOG_PATH=/app/logs/tsp_audit.jsonl
+    volumes:
+      - ./infra/ca_pki:/app/certs:ro
+      - softhsm_tokens:/app/softhsm
+      - ./logs:/app/logs
     restart: unless-stopped
 
-  portal:
-    build: ./portal
+  backend:
+    build: ./public_backend
     ports:
-      - "8501:8501"
+      - "8000:8000"
     environment:
       - TSP_BASE_URL=http://tsp:8001
+      - VERIFIER_BASE_URL=http://verifier:8002
+      - STORAGE_PATH=/app/storage
+      - BACKEND_AUDIT_LOG_PATH=/app/logs/backend_audit.jsonl
+    volumes:
+      - pdf_storage:/app/storage
+      - ./logs:/app/logs
     depends_on:
       - tsp
     restart: unless-stopped
+
+  portal:
+    build: ./portal_ui
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_BASE_URL=http://backend:8000
+    volumes:
+      - pdf_storage:/app/storage
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  verifier:
+    build: ./verifier_service
+    ports:
+      - "8002:8002"
+    environment:
+      - VERIFIER_TRUST_ROOT_PEM_PATH=/app/certs/root_ca_cert.pem
+      - VERIFIER_AUDIT_LOG_PATH=/app/logs/verifier_audit.jsonl
+    volumes:
+      - ./infra/ca_pki:/app/certs:ro
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+volumes:
+  pdf_storage:
+  softhsm_tokens:
